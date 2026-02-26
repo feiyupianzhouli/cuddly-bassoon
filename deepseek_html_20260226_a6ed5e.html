@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>心理年龄多维评估 · 专业版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #f2f5f9;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            color: #1e293b;
+            padding: 2rem 1rem;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15);
+            overflow: hidden;
+            padding: 2.5rem 2rem;
+        }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            background: linear-gradient(135deg, #1e2b4f, #2c3e6e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        .subhead {
+            font-size: 1.2rem;
+            color: #475569;
+            border-left: 5px solid #9b87f5;
+            padding-left: 1.5rem;
+            margin-bottom: 2rem;
+            font-weight: 400;
+            background: #f8fafc;
+            padding: 1.2rem 1.8rem;
+            border-radius: 20px;
+        }
+        .intro-card {
+            background: #f0f3fe;
+            border-radius: 24px;
+            padding: 1.8rem;
+            margin-bottom: 2.5rem;
+            border: 1px solid #e0e7ff;
+        }
+        .intro-card p {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            color: #1e293b;
+        }
+        .intro-card p:last-child {
+            margin-bottom: 0;
+        }
+        .badge {
+            display: inline-block;
+            background: #2d3b5e;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            letter-spacing: 0.3px;
+            margin-bottom: 1rem;
+        }
+        .question-section {
+            margin: 2.5rem 0 1.5rem;
+        }
+        .q-item {
+            background: #ffffff;
+            border-bottom: 1px solid #e9eef2;
+            padding: 1.8rem 0.5rem 1.5rem 0.5rem;
+            transition: background 0.2s;
+        }
+        .q-item:hover {
+            background: #fafcff;
+        }
+        .q-num {
+            display: inline-block;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #5f6b7a;
+            width: 2.5rem;
+        }
+        .q-text {
+            display: inline;
+            font-weight: 500;
+            font-size: 1.1rem;
+            color: #0f1829;
+        }
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 1.2rem;
+            gap: 0.6rem;
+        }
+        .option-item {
+            display: flex;
+            align-items: center;
+            background: #f1f4f9;
+            border-radius: 60px;
+            padding: 0.3rem 1rem 0.3rem 0.8rem;
+            border: 1px solid transparent;
+            transition: all 0.15s;
+            flex: 1 1 auto;
+            min-width: 120px;
+        }
+        .option-item:hover {
+            background: #e6ecf5;
+            border-color: #b5c9e0;
+        }
+        .option-item input[type="radio"] {
+            margin-right: 0.5rem;
+            accent-color: #3e5a8c;
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+        .option-item label {
+            font-size: 0.95rem;
+            color: #1e2b4f;
+            font-weight: 450;
+            cursor: pointer;
+            width: 100%;
+        }
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 3rem 0 2rem;
+            flex-wrap: wrap;
+        }
+        .btn {
+            border: none;
+            padding: 1rem 2.8rem;
+            border-radius: 60px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            background: white;
+            box-shadow: 0 8px 16px -8px rgba(0,32,64,0.15);
+            border: 1px solid #dde3ed;
+        }
+        .btn-primary {
+            background: #1e2b4f;
+            color: white;
+            border: none;
+            box-shadow: 0 12px 24px -10px #1e2b4f70;
+        }
+        .btn-primary:hover {
+            background: #2b3c66;
+            transform: scale(1.02);
+        }
+        .btn-secondary:hover {
+            background: #edf2f9;
+        }
+        .result-area {
+            background: #f9fbff;
+            border-radius: 32px;
+            padding: 2.5rem 2rem;
+            margin-top: 2rem;
+            border: 1px solid #dde7f5;
+            display: none;
+        }
+        .result-score {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #1e2b4f;
+            line-height: 1.2;
+            letter-spacing: -1px;
+        }
+        .result-tag {
+            background: #e6eefc;
+            color: #1e3c5a;
+            font-weight: 600;
+            padding: 0.5rem 1.8rem;
+            border-radius: 60px;
+            display: inline-block;
+            margin: 1rem 0 1.5rem;
+            font-size: 1.4rem;
+            border-left: 6px solid #9b87f5;
+        }
+        .result-desc {
+            font-size: 1.1rem;
+            color: #1e293b;
+            background: white;
+            padding: 1.8rem;
+            border-radius: 24px;
+            box-shadow: inset 0 1px 4px #eef2f8;
+            white-space: pre-line;
+            line-height: 1.7;
+        }
+        .footnote {
+            margin-top: 2.5rem;
+            font-size: 0.9rem;
+            color: #62748c;
+            text-align: center;
+            border-top: 1px dashed #ccd9e9;
+            padding-top: 2rem;
+        }
+        .warning-message {
+            background: #fff2e0;
+            border-radius: 16px;
+            padding: 1rem;
+            color: #a45b00;
+            text-align: center;
+            font-weight: 500;
+        }
+        .dimension-tip {
+            font-size: 0.9rem;
+            color: #6b7c93;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        @media (max-width: 600px) {
+            .container { padding: 1.8rem 1.2rem; }
+            h1 { font-size: 1.9rem; }
+            .option-item { min-width: 100%; }
+            .options { flex-direction: column; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🧠 心理年龄多维评估 · PAAS</h1>
+    <div class="subhead">
+        你的心里，住着几岁的自己？
+    </div>
+
+    <!-- 引导语卡片 -->
+    <div class="intro-card">
+        <span class="badge">仅需15分钟 · 深度自我对话</span>
+        <p>有时候，你会不会在某个瞬间突然觉得——</p>
+        <p>明明才二十出头，却对喧闹感到疲惫？或者早已过了而立之年，却依然像个孩子一样对世界好奇？</p>
+        <p><strong>身体年龄只是身份证的数字，心理年龄才是一个人真正的“灵魂刻度”。</strong> 它决定了你面对压力的反应、与人相处的方式、对生活的热情……甚至你过得快不快乐。</p>
+        <p style="margin-top: 1rem;">我们基于发展心理学与积极心理学，为你准备了这份多维评估。它不只是测试，而是一次温柔的自我探索。</p>
+    </div>
+
+    <!-- 动态题目将注入到此 -->
+    <form id="psychForm">
+        <div id="questionsContainer"></div>
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary" id="submitBtn">✨ 看见真实的我</button>
+            <button type="button" class="btn btn-secondary" id="resetBtn">⟲ 重新选择</button>
+        </div>
+    </form>
+
+    <!-- 结果展示区 -->
+    <div id="resultPanel" class="result-area">
+        <div style="display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap;">
+            <span class="result-score" id="scoreDisplay">0</span>
+            <span style="color: #546e7a;">分</span>
+        </div>
+        <div class="result-tag" id="ageTag"></div>
+        <div class="result-desc" id="ageDescription"></div>
+        <div style="margin-top: 2rem; text-align: right;">
+            <button class="btn btn-secondary" id="restartBtn">↻ 重新测试</button>
+        </div>
+    </div>
+
+    <div class="footnote">
+        <p><strong>专家声明</strong> · 本测试结果基于发展心理学理论，旨在自我探索与成长，不可作为临床诊断依据。心理年龄是流动的，愿你温柔对待每一个阶段的自己。</p>
+        <p style="margin-top: 1rem;">© 心理年龄多维评估 · 专业版</p>
+    </div>
+</div>
+
+<script>
+(function() {
+    // ---------- 题目库（50题，按维度排列，保持原汁原味的独特性）--------
+    const questions = [
+        // 维度一 心态与开放性 1-10
+        "遇到和自己观念冲突的人，我的第一反应是“听听看为什么他这么想”，而不是“他错了”。",
+        "即使某个新事物一开始让我不舒服，我也愿意给它一点时间，看看是不是自己还没理解。",
+        "我会主动寻找和自己观点不同的信息，防止自己陷入“信息茧房”。",
+        "当发现自己一直相信的事情被证明是错的，我能接受这个事实，而不是试图辩解。",
+        "对于“人生应该怎么过”这个问题，我觉得没有标准答案，每个人都可以有自己的活法。",
+        "看到年轻人玩一些我不懂的东西，我的第一反应是好奇“这有什么好玩的”，而不是“这有什么意思”。",
+        "我经常反思自己是否带着偏见看问题，并愿意调整。",
+        "如果回到十年前，我觉得当时的自己有些想法挺幼稚的——我相信十年后的自己看现在也会这样想。",
+        "面对不确定的未来，我的感受更多是“可以探索”，而不是“令人不安”。",
+        "我认为“不知道自己想要什么”也是人生的一部分，不需要为此焦虑。",
+        // 维度二 情绪稳定性 11-20
+        "生气的时候，我能觉察到自己正在生气，而不是完全被情绪吞没。",
+        "遇到挫折后，我不会一直问“为什么是我”，而是很快转向“接下来怎么办”。",
+        "我能接纳自己有负面情绪，不会因为心情不好而更加讨厌自己。",
+        "在压力很大的时候，我依然能分清哪些事该做、哪些话不该说。",
+        "被人误解时，我不会急着辩解，而是先让自己冷静下来再回应。",
+        "我很少因为一件小事爆发，把积累的情绪发泄在不相干的人身上。",
+        "难过的时候，我知道怎么安抚自己，而不是只能等别人来哄。",
+        "我不太会因为别人无意的一句话，就在心里反复咀嚼很久。",
+        "面对无法改变的事情，我能和那种“无能为力”的感觉和平共处。",
+        "即使生活中有很多不如意，我依然能在某些时刻感受到平静和满足。",
+        // 维度三 社会适应性 21-30
+        "和朋友相处时，我能感觉到对方情绪的微妙变化，即使对方没有说出来。",
+        "我懂得有些话即使是真的，也不一定非要说出来——这不是虚伪，是对关系的保护。",
+        "当别人向我倾诉痛苦时，我不会急着给建议，而是先让对方感觉到“我懂你”。",
+        "我能分清哪些是别人的情绪，哪些是我自己的，不会把别人的负面情绪背在自己身上。",
+        "拒绝别人的时候，我不会过度内疚，也不会找一堆借口。",
+        "我能理解有些人对我好是出于真心，有些人则是有所图，并且能坦然接受这两种存在。",
+        "和父母/伴侣发生分歧时，我能坚持自己的想法，同时不伤害他们的感受。",
+        "我知道自己在关系中的“雷区”是什么，也会尽量提前告诉重要的人。",
+        "我能在人群中保持自己的节奏，不会为了合群而做让自己不舒服的事。",
+        "对于渐行渐远的朋友，我能接受这是人生的常态，而不是觉得“被背叛”或“自己做错了什么”。",
+        // 维度四 认知活力与精力水平 31-40
+        "看书或工作时，我能沉浸进去，不容易被手机消息打断。",
+        "处理复杂问题时，我能把乱成一团的事情理出个头绪来。",
+        "学习新东西的时候，我不会因为一开始做不好就放弃。",
+        "和人争论时，我能快速抓住对方逻辑里的漏洞，也知道怎么反驳。",
+        "我经常会冒出一些有意思的想法，哪怕只是想想也觉得挺开心。",
+        "我对“玩”这件事还挺认真的——无论是游戏、运动还是爱好，都愿意花时间去琢磨。",
+        "即使是很日常的事情（比如做饭、走路、整理房间），我也能找到让它们变得有趣的方式。",
+        "我每天的精力整体够用，不会总觉得“没干什么就累了”。",
+        "和年轻人（比自己小很多的人）聊天时，我能跟上他们的思路和话题。",
+        "我对未来还有一些“想做的事”的清单，而不是觉得“这辈子就这样了”。",
+        // 维度五 自我认知与生活态度 41-50
+        "我知道自己性格里有些东西是改不掉的，也学会了和它们和平共处。",
+        "我对自己的人生选择负责，不会把不如意归咎于原生家庭或环境。",
+        "我很少羡慕别人的生活，因为知道自己看到的只是表面。",
+        "独处的时候，我不会觉得无聊或空虚，反而觉得是一种享受。",
+        "我不需要通过别人对我的评价来确认自己的价值。",
+        "对于“我是谁”这个问题，我有一个相对清晰的答案，而且这个答案越来越稳定。",
+        "我接受人生有很多事情是徒劳的，但还是愿意去做一些“没有用但想做的事”。",
+        "我不害怕变老，因为觉得每个年龄段都有自己的好。",
+        "回首过去，我觉得自己经历的一切都有它的意义，哪怕是那些痛苦的时刻。",
+        "如果现在就结束这一生，我觉得自己已经活得挺值的——当然，还想再多活几年。"
+    ];
+
+    // 选项配置
+    const options = [
+        { value: 1, label: '非常不符合' },
+        { value: 2, label: '比较不符合' },
+        { value: 3, label: '不确定' },
+        { value: 4, label: '比较符合' },
+        { value: 5, label: '非常符合' }
+    ];
+
+    // ---------- 渲染题目 ----------
+    function renderQuestions() {
+        const container = document.getElementById('questionsContainer');
+        if (!container) return;
+        let html = '';
+        questions.forEach((q, index) => {
+            const qNum = index + 1;
+            html += `<div class="q-item" id="q-${qNum}">`;
+            html += `<span class="q-num">${qNum}.</span> <span class="q-text">${q}</span>`;
+            html += `<div class="options">`;
+            // 生成五个选项
+            options.forEach((opt, optIdx) => {
+                const name = `q${qNum}`;
+                const id = `q${qNum}_${optIdx}`;
+                html += `<div class="option-item">`;
+                html += `<input type="radio" name="${name}" value="${opt.value}" id="${id}">`;
+                html += `<label for="${id}">${opt.label}</label>`;
+                html += `</div>`;
+            });
+            html += `</div></div>`;
+        });
+        container.innerHTML = html;
+    }
+
+    // ---------- 结果分段数据 (细腻有温度的解读) ----------
+    const resultSegments = [
+        { min: 230, max: 250, tag: '🌱 纯粹少年 · 18-25岁', desc: 
+            "你的心里住着一个没有被完全驯服的少年。对世界保持本能的好奇，对人对事带着一股未经世故的热忱。你可能会被人说“幼稚”，但你知道那不是贬义——你只是还没学会把真实的自己藏起来。\n\n你的情绪像夏天的天气，来得快去得也快。这种“情绪弹性”是很多人羡慕却早已失去的能力。\n\n💡 给你的话：请一定保护好你身上的少年气。同时可以开始练习一件事：情绪来的时候，试着给它起个名字。“我现在是难过”“我现在是委屈”——当你能够命名情绪，你就不会被它淹没。这是你走向成熟的第一步，不需要改变自己，只需要更懂自己。" 
+        },
+        { min: 200, max: 229, tag: '🌿 探索者 · 18-25岁', desc: 
+            "你身上有一种矛盾的美：既渴望独立，又害怕孤独；既想活出自己，又在意别人的眼光。你正在经历从“被世界定义”到“自己定义自己”的过渡期，有时候走得坚定，有时候也会迷茫到想哭。\n\n你对未来有很多想象，但也知道光想没用。你愿意尝试、愿意折腾、愿意为喜欢的事情熬夜。\n\n💡 给你的话：你在探索期最需要的是两样东西：允许自己试错的勇气，和一个可以回去的港湾。你不需要现在就找到答案，你只需要继续走。" 
+        },
+        { min: 180, max: 199, tag: '🏗️ 筑巢者 · 26-35岁', desc: 
+            "你已经不再是那个“什么都试试”的少年了。你开始有意识地为未来铺路——你知道自己想要什么，更重要的是，你知道怎么一步步靠近它。你身上有一种很踏实的质感，靠谱、说到做到、情绪稳定。\n\n你可能很久没有纯粹地“玩”过了，很久没有因为一件小事开心一整天了。\n\n💡 给你的话：筑巢的人最容易犯的错误是：把巢筑好了，自己却不会住了。请记得，你努力的目的是为了更好的生活，而不是为了“以后”才配生活。每周留半天给自己，做一件“没用但开心”的事。" 
+        },
+        { min: 151, max: 179, tag: '⚖️ 平衡者 · 26-35岁', desc: 
+            "你身上有一种难得的平衡感。你知道怎么在现实中生存，又没丢掉内心的理想；你知道怎么和人相处，又不失去自己。你看问题不再是非黑即白，你能理解每个人都有难处，每件事都有两面。\n\n“平衡者”最大的危机是：太平衡了，反而失去了激情。你多久没有因为一件事热血沸腾了？\n\n💡 给你的话：平衡是本事，但偶尔的“失衡”才是活着的证据。试着给自己找一件“有点疯狂”的事，让生活偶尔脱轨一次，你会发现——那个会激动、会紧张、会心跳加速的自己，一直都在。" 
+        },
+        { min: 120, max: 150, tag: '🔮 通透者 · 36-45岁', desc: 
+            "你越来越懂得“筛选”的重要性。你知道什么值得在意，什么不值得；什么人的话要听，什么人可以微笑点头然后忘掉。你看问题有一种“一眼看到底”的能力。\n\n太通透的人，最大的困扰是：懒得入戏。你知道很多事情最后都是一场空，于是你告诉自己：那就算了吧。\n\n💡 给你的话：通透不是冷漠，看淡不是放弃。真正的智慧是：看清了生活的真相，依然愿意认真过好每一天。试着对一件事“认真投入”一次，哪怕知道可能没结果。" 
+        },
+        { min: 101, max: 119, tag: '🕯️ 掌灯者 · 36-45岁', desc: 
+            "你身上有一种温柔的力量。你不再只关注自己，而是开始思考：我能为别人做点什么？你可能是那个在朋友低谷时默默陪伴的人，可能是那个在团队里稳住局面的人。你的情绪越来越稳定，不是因为没有波动，而是因为你学会了和情绪相处。\n\n“掌灯者”的疲惫是：你一直在给别人光，却忘了自己也需要被照亮。\n\n💡 给你的话：掌灯的人，也需要偶尔把灯交给别人，让自己休息一下。试着向信任的人说一次“我需要你”，试着允许自己脆弱一次。你给别人的温暖，也要记得给自己一份。" 
+        },
+        { min: 70, max: 100, tag: '🍂 豁达者 · 46-55岁', desc: 
+            "你身上有一种历经世事后的松弛感。你不再纠结于“应该怎样”，而是接纳“就是这样”。你知道很多事情没有对错，只有角度；很多人没有好坏，只有立场。你对生活的要求越来越简单：吃得下、睡得着、笑得出来。\n\n豁达的背面是：有时候会显得“无所谓”，可能会错过那些依然值得你在乎的人和事。\n\n💡 给你的话：豁达不是什么都不在乎，而是知道什么值得在乎。请继续守护你的简单和松弛，同时试着对一两件事“认真在乎”一下。不是为了得到什么，只是为了体验那种“我还在认真活着”的感觉。" 
+        },
+        { min: 51, max: 69, tag: '🍁 归真者 · 46-55岁', desc: 
+            "你身上有一种返璞归真的质感。你看世界像孩子一样简单，却比孩子多了一份理解；你待人像孩子一样真诚，却比孩子多了一份包容。你不再被世俗的标准绑架。你知道什么是“够了”，什么是“多余的”。\n\n归真者的孤独是：你的简单，在复杂的世界里显得有点“格格不入”。\n\n💡 给你的话：你是很多人向往却到不了的样子。请继续保持这份简单和纯粹，它会成为身边人最珍贵的礼物。同时，偶尔也可以“入世”一点，关心一下外面发生了什么——只是为了知道，这个世界还在变化，而你依然可以参与其中。" 
+        },
+        { min: 30, max: 50, tag: '❄️ 永恒纯真 / 需要关怀', desc: 
+            "您的得分位于50分及以下，这通常指向两种可能：\n\n🌼 第一种：返璞归真。你是看尽千帆的“老顽童”。你经历过、拥有过、失去过、放下过，最后回到了最简单纯粹的状态。你看世界像孩子一样新鲜，待人像孩子一样真诚。你活成了很多人羡慕的样子——不是因为你拥有得多，而是因为你需要得少。\n\n🕯️ 第二种：能量低谷。你可能正在经历一段艰难的时期——持续的疲惫、麻木、对什么都提不起兴趣。这不是你的错，也不是你“坏了”。这只是说明你撑了太久，太累了。\n\n💡 给你的话：如果你是第一种，请继续用纯真温暖世界。如果你是第二种，请你一定停下来，认真对待自己的状态。找一个信任的人聊聊，或寻求专业帮助。请记得：你内心的那盏灯只是暂时蒙上了灰，它从来没有熄灭过。" 
+        }
+    ];
+
+    // 由于最低分50，30-50只覆盖50分的情况，但为了完整保留区间，30-50段包含50分
+    // 另外补一个极小区间防止溢出，但其实不会低于50
+    const defaultSegment = { tag: '🌌 心灵旅者', desc: '您的分数在解读区间边缘，这本身就是一种独特。请相信每个阶段都有它的风景。' };
+
+    // ---------- 计算总分并展示结果 ----------
+    function calculateAndShow() {
+        let total = 0;
+        let allSelected = true;
+        // 遍历50组radio
+        for (let i = 1; i <= questions.length; i++) {
+            const radios = document.getElementsByName(`q${i}`);
+            let selectedValue = null;
+            for (let r of radios) {
+                if (r.checked) {
+                    selectedValue = parseInt(r.value, 10);
+                    break;
+                }
+            }
+            if (selectedValue === null) {
+                allSelected = false;
+                // 高亮未答题目
+                document.getElementById(`q-${i}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                document.getElementById(`q-${i}`)?.style.background = '#fff1f0';
+                setTimeout(() => {
+                    document.getElementById(`q-${i}`)?.style.background = '';
+                }, 1000);
+                break;
+            } else {
+                total += selectedValue;
+            }
+        }
+
+        if (!allSelected) {
+            alert('还差几题没选哦，再往下看看～ 和自己对话，完整一些更好。');
+            return;
+        }
+
+        // 显示结果区域
+        const resultPanel = document.getElementById('resultPanel');
+        resultPanel.style.display = 'block';
+        document.getElementById('scoreDisplay').innerText = total;
+
+        // 匹配分段
+        let matched = resultSegments.find(seg => total >= seg.min && total <= seg.max);
+        if (!matched) {
+            matched = defaultSegment;
+        }
+
+        document.getElementById('ageTag').innerText = matched.tag;
+        document.getElementById('ageDescription').innerText = matched.desc;
+
+        // 滚动到结果
+        resultPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // ---------- 重置表单 ----------
+    function resetForm() {
+        const radios = document.querySelectorAll('input[type="radio"]');
+        radios.forEach(r => r.checked = false);
+        document.getElementById('resultPanel').style.display = 'none';
+    }
+
+    // ---------- 事件绑定 ----------
+    window.addEventListener('DOMContentLoaded', () => {
+        renderQuestions();
+
+        const form = document.getElementById('psychForm');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            calculateAndShow();
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', resetForm);
+        document.getElementById('restartBtn')?.addEventListener('click', () => {
+            resetForm();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    });
+
+})();
+</script>
+</body>
+</html>
